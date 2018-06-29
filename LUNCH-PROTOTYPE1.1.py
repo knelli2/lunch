@@ -15,7 +15,7 @@ def printlistcolumn(reduced_rest_list):
                 else:
                     st+=(str(jdx+1)+'. '+reduced_rest_list[jdx]).ljust(maxl+2)
         st+='\n'
-    print st
+    print (st)
 
 def edit_distance(s1, s2):
     s1=s1.lower()
@@ -45,8 +45,8 @@ rest_len = len(restaurants)
 
 num_rest = int(input("How many restaraunts to start with?  "))
 while(num_rest>rest_len-1):
-        print '\nNot that many!\n'
-	num_rest = int(input("How many restaraunts to start with?  "))
+    print ('\nNot that many!\n')
+    num_rest = int(input("How many restaraunts to start with?  "))
     
 reduced_rest_list = []
 
@@ -70,7 +70,7 @@ while len(reduced_rest_list) > 6:
     thedevilhimself = str(inpt)
     if thedevilhimself.isdigit():
         if int(thedevilhimself)>len(reduced_rest_list):
-            print 'Index Out of Bounds. You might love segfaults.'
+            print ('Index Out of Bound. You might love segfaults.')
             continue
         reduced_rest_list[int(thedevilhimself)-1] = 'deleted'
         #del reduced_rest_list[int(thedevilhimself)-1]
@@ -83,9 +83,9 @@ while len(reduced_rest_list) > 6:
             if (tmp<minEdit): minEdit=tmp; toRemove=i
     
         try:
-        	print("Removing {}".format(toRemove))
-                #reduced_rest_list.remove(toRemove)
-                reduced_rest_list[reduced_rest_list.index(toRemove)] = 'deleted'
+            print("Removing {}".format(toRemove))
+            #reduced_rest_list.remove(toRemove)
+            reduced_rest_list[reduced_rest_list.index(toRemove)] = 'deleted'
         except ValueError or NameError:
             print("\nThis is not a restaurant in the list...")
             print("You probably spelled it wrong genius.")
