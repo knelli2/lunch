@@ -44,7 +44,7 @@ destination = ""
 rest_len = len(restaurants)
 
 num_rest = int(input("How many restaraunts to start with?  "))
-while(num_rest>rest_len-1):
+while(num_rest<7 or num_rest>rest_len-1):
     print ('\nNot that many!\n')
     num_rest = int(input("How many restaraunts to start with?  "))
     
@@ -64,8 +64,8 @@ reduced_rest_list.sort(key = lambda x: x.lower())
 print("############## PHASE 1 ##############\n")
 printlistcolumn(reduced_rest_list)
 
-
-while len(reduced_rest_list) > 6:
+currentrests = len(reduced_rest_list)
+while currentrests > 6:
     inpt = input("Choose a restaurant to remove from the list: ")
     thedevilhimself = str(inpt)
     if thedevilhimself.isdigit():
@@ -73,6 +73,7 @@ while len(reduced_rest_list) > 6:
             print ('Index Out of Bound. You might love segfaults.')
             continue
         reduced_rest_list[int(thedevilhimself)-1] = 'deleted'
+        currentrests -= 1
         #del reduced_rest_list[int(thedevilhimself)-1]
     else:
         toRemove=""
@@ -86,6 +87,7 @@ while len(reduced_rest_list) > 6:
             print("Removing {}".format(toRemove))
             #reduced_rest_list.remove(toRemove)
             reduced_rest_list[reduced_rest_list.index(toRemove)] = 'deleted'
+            currentrests -=1
         except ValueError or NameError:
             print("\nThis is not a restaurant in the list...")
             print("You probably spelled it wrong genius.")
@@ -97,6 +99,7 @@ while len(reduced_rest_list) > 6:
     printlistcolumn(reduced_rest_list)
     print("\n")
 
+reduced_rest_list = [r for r in reduced_rest_list if r != 'deleted' ]
 
 print()
 print("############## PHASE 2 ##############\n")
@@ -127,7 +130,7 @@ if choice == 1:
 	#print("Time to roll a die and pick one! Hit enter to roll!")
 	#input()
 	for i in range(random.randint(1,6)):
-		print("Rolling" + "." * i, end=="\r")
+		print("Rolling" + "." * i, end="\r")
 		time.sleep(1)
 	num = random.randint(1, 6)
 	print("\nYou rolled a {}!".format(num))
