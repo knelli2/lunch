@@ -61,20 +61,36 @@ while len(reduced_rest_list) < num_rest:
 # Sort list by name (case-insensitive)
 reduced_rest_list.sort(key = lambda x: x.lower())
 
-print("############## PHASE 1 ##############\n")
+print(' PHASE 1 '.center(longest_string,'#') + "\n")
 printlistcolumn(reduced_rest_list)
 
 currentrests = len(reduced_rest_list)
 while currentrests > 6:
-    inpt = input("Choose a restaurant to remove from the list: ")
-    thedevilhimself = str(inpt)
+    thedevilhimself = input("Choose a restaurant to remove from the list: ")
+    #thedevilhimself = str(inpt)
+    if len(thedevilhimself) < 1:
+        continue
     if thedevilhimself.isdigit():
         if int(thedevilhimself)>len(reduced_rest_list):
-            print ('Index Out of Bound. You might love segfaults.')
+            print('Index Out of Bound. You might love segfaults.')
             continue
-        reduced_rest_list[int(thedevilhimself)-1] = 'deleted'
-        currentrests -= 1
+        elif reduced_rest_list[int(thedevilhimself)-1] == 'deleted':
+            print("You can't delete what has already been deleted.")
+            continue
+        else:
+            toRemove = reduced_rest_list[int(thedevilhimself)-1]
+            print("Removing {}".format(toRemove))
+            reduced_rest_list[int(thedevilhimself)-1] = 'deleted'
+            currentrests -= 1
         #del reduced_rest_list[int(thedevilhimself)-1]
+    elif thedevilhimself[0] == '-' and thedevilhimself[1:].isdigit():
+        if reduced_rest_list[int(thedevilhimself)] == 'deleted':
+            print("You can't delete what has already been deleted.")
+            continue
+        toRemove = reduced_rest_list[int(thedevilhimself)]
+        print("Removing {}".format(toRemove))
+        reduced_rest_list[int(thedevilhimself)] = 'deleted'
+        currentrests -= 1
     else:
         toRemove=""
         minEdit=100
@@ -102,7 +118,7 @@ while currentrests > 6:
 reduced_rest_list = [r for r in reduced_rest_list if r != 'deleted' ]
 
 print()
-print("############## PHASE 2 ##############\n")
+print(" PHASE 2 ".center(longest_string,"#") + "\n")
 print("These are the 6 restaurants you have chosen for today:\n1. {}\n2. {}\n3. {}\n4. {}\n5. {}\n6. {}\n".format(reduced_rest_list[0], reduced_rest_list[1], reduced_rest_list[2], reduced_rest_list[3], reduced_rest_list[4], reduced_rest_list[5]))
 
 
@@ -141,14 +157,7 @@ elif choice == 2:
 	reduced_rest_list.sort()
 	for i in range(len(reduced_rest_list)):
 		finalists[reduced_rest_list[i]] = 0
-	
-	
-	
-	print("Final list:\n")
-	for i in range(len(reduced_rest_list)):
-		print("%g. " % (i+1) + reduced_rest_list[i])
-	print()
-	
+
 	
 	
 	num_voters = input("Enter number of people who are voting: ")
@@ -202,11 +211,6 @@ elif choice == 2:
 		# Second choice is given 2 points
 		vote2 = input("Second choice (2 points): ")
 		print("\033[A" + " "*longest_string + "\033[A")
-		
-		
-		
-		# Prevents one choice from getting stacked
-		
 		
 		
 		
@@ -280,12 +284,15 @@ elif choice == 2:
 			break	
 	
 	
-	
+	counter = 3
 	while tie > 1:
 		time.sleep(2)
-		print("But we're not done yet!")
+		print("\nBut we're not done yet!")
 		time.sleep(2)
 		print()
+		
+		phase = " PHASE %g " % counter
+		print(phase.center(longest_string, "#") + "\n")
 
 		if tie == 2:
 			print("We have a tie between " + results[0] + " and " + results[1] + ".")
@@ -324,7 +331,7 @@ elif choice == 2:
 		time.sleep(2)	
 		if tiebreaker == 1:
 			for i in range(random.randint(1,6)):
-				print("Rolling" + "." * i, end=="\r")
+				print("Rolling" + "." * i, end="\r")
 				time.sleep(1)
 			num = random.randint(1, tie)
 			print("\nYou rolled a {}!".format(num))
@@ -377,13 +384,14 @@ elif choice == 2:
 			elif tie > 1:
 				del results[i:]
 				break
+		counter += 1
 	else:	
 		destination = results[0]
 
 		
 	
 
-time.sleep(3)	
+time.sleep(1)	
 print()
 print("Today's lunch will be at {}.".format(destination))
 print("Enjoy! :)")
