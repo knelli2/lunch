@@ -104,6 +104,7 @@ while len(reduced_rest_list) < num_rest:
 reduced_rest_list.sort(key = lambda x: x.lower())
 original_list = list(reduced_rest_list)
 
+print()
 print(Color(' PHASE 1 '.center(longest_string,'#') + "\n", B))
 printlistcolumn(reduced_rest_list)
 
@@ -166,6 +167,7 @@ print(Color(' PHASE 2 '.center(longest_string,'#') + "\n", B))
 
 print(Color("These are the 6 restaurants you have chosen for today:\n", HDR) + Color("1. {}\n2. {}\n3. {}\n4. {}\n5. {}\n6. {}\n".format(reduced_rest_list[0], reduced_rest_list[1], reduced_rest_list[2], reduced_rest_list[3], reduced_rest_list[4], reduced_rest_list[5]), BLD))
 
+time.sleep(2)
 choice = input(Color("Make a choice:\n" + "(1) Roll a die\n" + "(2) Vote\n", HDR))
 print("\033[A" + " "*longest_string + "\033[A")
 
@@ -226,7 +228,7 @@ elif choice == 2:
 	
 	
 	for voter in range(num_voters):
-		print(Color("Voter number ", HDR) + Color(str(voter+1), G, BLD) + Color(", please enter the indices of your top 3 choices in order.", HDR))
+		print(Color("Voter number ", HDR) + Color(str(voter+1), G, BLD) + Color(", please enter your top 3 choices in order.", HDR))
 		vote1, vote2, vote3 = 0, 0, 0
 		
 		
