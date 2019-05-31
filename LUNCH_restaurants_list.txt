@@ -1,6 +1,6 @@
-A-Ri-Rang
 Ambar India
 Antonio's
+A-Ri-Rang
 Asian Taste
 Bab Plus
 Bangkok Thai
@@ -8,7 +8,6 @@ Basil Thai
 bb.q premium chicken
 Bevier Cafe
 Black Dog
-Bo Bo China
 Bo Bo China
 Bombay Indian Grill
 Bread Company
@@ -19,10 +18,11 @@ Courier Cafe
 Cracked
 Crane Alley
 Cravings
+C-U LaLa Noodles
 Dancing Dog
 Domino's
 DP Dough
-Einstein Bros.
+# Einstein Bros.
 Evo Cafe
 Fat Sandwich
 Fiesta Cafe
@@ -32,8 +32,8 @@ Golden Harbor
 Golden Wok
 Home of Gourmet Chinese and Thai
 Hot Wok Express
-J Gumbo's
 Jerusalem
+J Gumbo's
 Jimmy John's
 Jipbap Taste of Korea
 Jurassic Grill
@@ -48,7 +48,6 @@ Masijta Grill
 McDonald's
 Merry Ann's
 Mia Za's
-Mr. Chou and Charles
 Murphy's
 Nanjing Bistro
 Niro's Gyros

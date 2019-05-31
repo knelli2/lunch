@@ -77,7 +77,8 @@ restaurants = []
 with open("LUNCH_restaurants_list.txt","r") as f:
 	for line in f:
 		line = line.rstrip()
-		restaurants += [line]
+		if line[0] != '#':
+			restaurants += [line]
 
 longest_string = 100
 destination = ""
@@ -91,13 +92,17 @@ while(num_rest<7 or num_rest>rest_len-1):
     num_rest = int(input(Color("How many restaraunts to start with?  ", HDR)))
     
 reduced_rest_list = []
-
 shuffle(restaurants)
+
+history = 'LUNCH_history.txt'
+with open(history,'r') as h:
+	history_list = [ rst.strip() for rst in h.readlines() ]
+num_hist = max(-3,-len(history_list))
 
 while len(reduced_rest_list) < num_rest:
     randint = random.randint(0, rest_len-1)
     rest = restaurants[randint]
-    if rest not in reduced_rest_list: 
+    if rest not in reduced_rest_list and rest not in history_list[num_hist:]: 
         reduced_rest_list.append(rest)
        
 # Sort list by name (case-insensitive)
@@ -265,7 +270,8 @@ elif choice == 2:
 			try:
 				vote2 = int(round(float(vote2)))
 				while vote1 == vote2:
-					vote2 = getpass(Color("You can't pick the same restaurant more than once. Please pick a different one: ", WRN))
+					print(Color("You can't pick the same restaurant more than once.", WRN))
+					vote2 = getpass(Color("Please pick a different one: ", HDR,BLD))
 					print("\033[A" + " "*longest_string + "\033[A")
 					vote2 = int(round(float(vote2)))
 				finalists[reduced_rest_list[vote2-1]] += 2
@@ -295,7 +301,8 @@ elif choice == 2:
 			try:
 				vote3 = int(round(float(vote3)))
 				while vote1 == vote3 or vote2 == vote3:
-					vote3 = getpass(Color("You can't pick the same restaurant more than once. Please pick a different one: ", WRN))
+					print(Color("You can't pick the same restaurant more than once.", WRN))
+					vote3 = getpass(Color("Please pick a different one: ", HDR,BLD))
 					print("\033[A" + " "*longest_string + "\033[A")
 					vote3 = int(round(float(vote3)))
 				finalists[reduced_rest_list[vote3-1]] += 1
@@ -444,6 +451,11 @@ time.sleep(1)
 print()
 print(Color("Today's lunch will be at ", HDR) + Color(destination, G, BLD))
 print(Color("Enjoy! :)", HDR))
+
+hist_flag = 1
+if hist_flag > 0:
+	with open(history,'a') as hist:
+		hist.write('\n'+destination)
 
 
 
