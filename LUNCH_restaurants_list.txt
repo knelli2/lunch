@@ -1,5 +1,5 @@
 Ambar India
-Antonio's
+Antonio's Pizza
 A-Ri-Rang
 Asian Taste
 Bab Plus
@@ -13,7 +13,6 @@ Bombay Indian Grill
 Bread Company
 Burrito King
 Chipotle
-Chopstix
 Courier Cafe
 Cracked
 Crane Alley
@@ -22,16 +21,19 @@ C-U LaLa Noodles
 Dancing Dog
 Domino's
 DP Dough
-# Einstein Bros.
+Einstein Bros.
 Evo Cafe
 Fat Sandwich
+Fernando's
 Fiesta Cafe
 Fire Haus
+Four Breakfast & More
 Garbanzo
 Golden Harbor
 Golden Wok
 Home of Gourmet Chinese and Thai
 Hot Wok Express
+Howdy
 Jerusalem
 J Gumbo's
 Jimmy John's
@@ -51,8 +53,8 @@ Mia Za's
 Murphy's
 Nanjing Bistro
 Niro's Gyros
-Noodles
-Ozu
+Noodles and Company
+Ozu Ramen
 Pancheros
 Panda Express
 Panera
@@ -60,15 +62,19 @@ Papa John's
 Perkins
 Pho Cafe
 Pizza Hut
+Pokelab
 Potbelly
 Qdoba
+Red Cape Hot Pot
 Red Herring Vegetarian
 Rosati's
 Sakanaya
 Salad Meister
 Seoul Taco
 Seven Saints
+Shiquan
 Siam Terrace
+Signature Grill
 Slice Factory
 Spicy Tang
 Spoon House
