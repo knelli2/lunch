@@ -22,36 +22,36 @@ UND = '\033[4m'		# Underline
 ################ FUNCTIONS ################
 
 def printlistcolumn(reduced_rest_list):
-    st = ''
-    maxl = 35
-    onethird = int(math.ceil(len(reduced_rest_list)*1.0/3))
-    for idx in  range(0, onethird):
-        for jdx in [idx,idx+onethird,idx+onethird*2]:
-            if(jdx<len(reduced_rest_list)):
-                txt = str(jdx+1) + '. ' + original_list[jdx]
-                if(reduced_rest_list[jdx] == 'deleted'):
-                    st += strikethrough(txt).ljust(maxl+2+len(txt))
-                else:
-                    st += txt.ljust(maxl+2)
-        st+='\n'
-    print (st)
+	st = ''
+	maxl = 35
+	onethird = int(math.ceil(len(reduced_rest_list)*1.0/3))
+	for idx in  range(0, onethird):
+		for jdx in [idx,idx+onethird,idx+onethird*2]:
+			if(jdx<len(reduced_rest_list)):
+				txt = str(jdx+1) + '. ' + original_list[jdx]
+				if(reduced_rest_list[jdx] == 'deleted'):
+					st += strikethrough(txt).ljust(maxl+2+len(txt))
+				else:
+					st += txt.ljust(maxl+2)
+		st+='\n'
+	print (st)
 
 def edit_distance(s1, s2):
-    s1=s1.lower()
-    s2=s2.lower()
-    m=len(s1)+1
-    n=len(s2)+1
+	s1=s1.lower()
+	s2=s2.lower()
+	m=len(s1)+1
+	n=len(s2)+1
 
-    tbl = {}
-    for i in range(m): tbl[i,0]=i
-    for j in range(n): tbl[0,j]=j
-    for i in range(1, m):
-        for j in range(1, n):
-            cost = 0 if s1[i-1] == s2[j-1] else 1
-            tbl[i,j] = min(tbl[i, j-1]+1, tbl[i-1, j]+1, tbl[i-1, j-1]+cost)
+	tbl = {}
+	for i in range(m): tbl[i,0]=i
+	for j in range(n): tbl[0,j]=j
+	for i in range(1, m):
+		for j in range(1, n):
+			cost = 0 if s1[i-1] == s2[j-1] else 1
+			tbl[i,j] = min(tbl[i, j-1]+1, tbl[i-1, j]+1, tbl[i-1, j-1]+cost)
 
-    return tbl[i,j]
-    
+	return tbl[i,j]
+	
 def strikethrough(text):
 	result = '\u0336'.join(text) + '\u0336'
 	return result
@@ -65,7 +65,9 @@ def Color(text, *args, end=True):
 	if end:
 		result += NRM
 	return result
-	
+
+def clearConsole():
+	print('\033[2J\033[1;1H')
 	
 #################################################
 ################## MAIN SCRIPT ##################
@@ -88,9 +90,9 @@ rest_len = len(restaurants)
 
 num_rest = int(input(Color("How many restaraunts to start with?  ", HDR)))
 while(num_rest<7 or num_rest>rest_len-1):
-    print(Color('Not that many!\n', WRN))
-    num_rest = int(input(Color("How many restaraunts to start with?  ", HDR)))
-    
+	print(Color('Not that many!\n', WRN))
+	num_rest = int(input(Color("How many restaraunts to start with?  ", HDR)))
+	
 reduced_rest_list = []
 shuffle(restaurants)
 
@@ -100,11 +102,11 @@ with open(history,'r') as h:
 num_hist = max(-3,-len(history_list))
 
 while len(reduced_rest_list) < num_rest:
-    randint = random.randint(0, rest_len-1)
-    rest = restaurants[randint]
-    if rest not in reduced_rest_list and rest not in history_list[num_hist:]: 
-        reduced_rest_list.append(rest)
-       
+	randint = random.randint(0, rest_len-1)
+	rest = restaurants[randint]
+	if rest not in reduced_rest_list and rest not in history_list[num_hist:]: 
+		reduced_rest_list.append(rest)
+	   
 # Sort list by name (case-insensitive)
 reduced_rest_list.sort(key = lambda x: x.lower())
 original_list = list(reduced_rest_list)
@@ -115,53 +117,55 @@ printlistcolumn(reduced_rest_list)
 
 currentrests = len(reduced_rest_list)
 while currentrests > 6:
-    thedevilhimself = input(Color("Choose a restaurant to remove from the list: ", HDR))
-    if len(thedevilhimself) < 1:
-        continue
-    if thedevilhimself.isdigit():
-        if int(thedevilhimself)>len(reduced_rest_list):
-            print(Color('Index Out of Bound. You might love segfaults.', R))
-            continue
-        elif reduced_rest_list[int(thedevilhimself)-1] == 'deleted':
-            print(Color("You can't delete what has already been deleted.", WRN))
-            continue
-        else:
-            toRemove = reduced_rest_list[int(thedevilhimself)-1]
-            print(Color("Removing ", HDR) + Color(toRemove, BLD))
-            reduced_rest_list[int(thedevilhimself)-1] = 'deleted'
-            currentrests -= 1
-        #del reduced_rest_list[int(thedevilhimself)-1]
-    elif thedevilhimself[0] == '-' and thedevilhimself[1:].isdigit():
-        if reduced_rest_list[int(thedevilhimself)] == 'deleted':
-            print(Color("You can't delete what has already been deleted.", WRN))
-            continue
-        toRemove = reduced_rest_list[int(thedevilhimself)]
-        print(Color("Removing ", HDR) + Color(toRemove, BLD))
-        reduced_rest_list[int(thedevilhimself)] = 'deleted'
-        currentrests -= 1
-    else:
-        toRemove=""
-        minEdit=100
-    
-        for i in reduced_rest_list:
-            tmp = edit_distance(thedevilhimself.lower(), i.lower())
-            if (tmp<minEdit): minEdit=tmp; toRemove=i
-    
-        try:
-            print(Color("Removing ", HDR) + Color(toRemove, BLD))
-            #reduced_rest_list.remove(toRemove)
-            reduced_rest_list[reduced_rest_list.index(toRemove)] = 'deleted'
-            currentrests -=1
-        except ValueError or NameError:
-            print(Color("\nThis is not a restaurant in the list...", R))
-            print(Color("You probably spelled it wrong genius.", R))
-            print(Color("Choose one that is actually in the list.", R))
-            time.sleep(3)
-        
-    print()
-    #reduced_rest_list.sort(key = lambda x: x.lower())
-    printlistcolumn(reduced_rest_list)
-    print()
+	thedevilhimself = input(Color("Choose a restaurant to remove from the list: ", HDR))
+	if len(thedevilhimself) < 1:
+		continue
+	if thedevilhimself.isdigit():
+		if int(thedevilhimself)>len(reduced_rest_list):
+			print(Color('Index Out of Bound. You might love segfaults.', R))
+			continue
+		elif reduced_rest_list[int(thedevilhimself)-1] == 'deleted':
+			print(Color("You can't delete what has already been deleted.", WRN))
+			continue
+		else:
+			toRemove = reduced_rest_list[int(thedevilhimself)-1]
+			clearConsole()
+			print(Color("Removing ", HDR) + Color(toRemove, BLD))
+			reduced_rest_list[int(thedevilhimself)-1] = 'deleted'
+			currentrests -= 1
+		#del reduced_rest_list[int(thedevilhimself)-1]
+	elif thedevilhimself[0] == '-' and thedevilhimself[1:].isdigit():
+		if reduced_rest_list[int(thedevilhimself)] == 'deleted':
+			print(Color("You can't delete what has already been deleted.", WRN))
+			continue
+		toRemove = reduced_rest_list[int(thedevilhimself)]
+		clearConsole()
+		print(Color("Removing ", HDR) + Color(toRemove, BLD))
+		reduced_rest_list[int(thedevilhimself)] = 'deleted'
+		currentrests -= 1
+	else:
+		toRemove=""
+		minEdit=100
+	
+		for i in reduced_rest_list:
+			tmp = edit_distance(thedevilhimself.lower(), i.lower())
+			if (tmp<minEdit): minEdit=tmp; toRemove=i
+	
+		try:
+			reduced_rest_list[reduced_rest_list.index(toRemove)] = 'deleted'
+			clearConsole()
+			print(Color("Removing ", HDR) + Color(toRemove, BLD))
+			currentrests -=1
+		except ValueError or NameError:
+			print(Color("\nThis is not a restaurant in the list...", R))
+			print(Color("You probably spelled it wrong genius.", R))
+			print(Color("Choose one that is actually in the list.", R))
+			time.sleep(3)
+		
+	print()
+	#reduced_rest_list.sort(key = lambda x: x.lower())
+	printlistcolumn(reduced_rest_list)
+	print()
 
 reduced_rest_list = [r for r in reduced_rest_list if r != 'deleted' ]
 
@@ -179,9 +183,6 @@ print("\033[A" + " "*longest_string + "\033[A")
 
 
 while not isinstance(choice, int) or (choice != 1 and choice != 2):
-	#print("Please input either 1 or 2.")
-	#choice = input("Make a choice:\n" + "(1) Roll a die\n" + "(2) Vote\n")
-	#while not isinstance(choice, int):
 	try: 
 		choice = int(choice)
 		if choice != 1 and choice != 2:
@@ -241,14 +242,13 @@ elif choice == 2:
 		# First choice is given 3 points
 		vote1 = getpass(Color("First choice (3 points): ", HDR, BLD))
 		print("\033[A" + " "*longest_string + "\033[A")
-		
-		
-		
+
 		# Preventing human errors in input
-		while not isinstance(vote1,int):
+		while True:
 			try:
 				vote1 = int(round(float(vote1)))
 				finalists[reduced_rest_list[vote1-1]] += 3
+				break
 			except ValueError:
 				print(Color("Not a valid input.", R))
 				vote1 = getpass(Color("Please enter a valid choice: ", HDR, BLD))
@@ -263,9 +263,7 @@ elif choice == 2:
 		# Second choice is given 2 points
 		vote2 = getpass(Color("Second choice (2 points): ", HDR, BLD))
 		print("\033[A" + " "*longest_string + "\033[A")
-		
-		
-		
+
 		while True:
 			try:
 				vote2 = int(round(float(vote2)))
@@ -290,12 +288,6 @@ elif choice == 2:
 		# Third choice is given 1 point
 		vote3 = getpass(Color("Third choice (1 point): ", HDR, BLD))
 		print("\033[A" + " "*longest_string + "\033[A")
-		
-		
-		
-		#while vote1 == vote3 or vote2 == vote3:
-		#	vote3 = getpass(Color("You can't pick the same restaurant more than once. Please pick a different one: ", WRN))
-		#	print("\033[A" + " "*longest_string + "\033[A")
 			
 		while True:
 			try:
@@ -315,8 +307,6 @@ elif choice == 2:
 				print(Color("Your choice is not in the final list.", WRN))
 				vote3 = getpass(Color("Please enter a valid choice: ", HDR))
 				print("\033[A" + " "*longest_string + "\033[A")
-			
-			
 	
 		print(Color("Voter number ", HDR) + Color(str(voter+1), G, BLD) + Color(" is done.\n", HDR))
 		time.sleep(2)
